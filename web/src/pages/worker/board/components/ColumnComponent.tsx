@@ -143,6 +143,7 @@ class DroppableColumn extends React.Component<DroppableColumnPropsType, Droppabl
   render() {
     const columnData = this.state.list;
     return <>
+      {/* todo 加载或刷新数据时, 增加交互 loading */}
       {(columnData && columnData.length > 0)
         ? (
             <DragDropContext onDragEnd={this.onDragEnd}>

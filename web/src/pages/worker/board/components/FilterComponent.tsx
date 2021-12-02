@@ -120,6 +120,7 @@ class FilterComponent extends React.Component<FilterComponentPropsType, FilterCo
       <Form onFinish={this.submitQuery}>
         <Space>
           <Form.Item label={'选择项目'} name={'iterations'}>
+            {/*todo 加载数据时, 需要交互 loading */}
             <Cascader
               style={{width: 240}}
               options={this.state.filterProjectOptions}

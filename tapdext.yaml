@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tapdext
+  labels:
+    app: tapdext
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tapdext
+  template:
+    metadata:
+      labels:
+        app: tapdext
+    spec:
+      containers:
+        - name: tapdext
+          image: mantas/tapdext:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: tapdext
+#   labels:
+#     run: tapdext
+# spec:
+#   type: NodePort
+#   ports:
+#     - protocol: TCP
+#       port: 28080
+#       targetPort: 80
+#   selector:
+#     app: tapdext
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: tapdext-lb
+  labels:
+    run: tapdext-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 18088
+      targetPort: 80
+  selector:
+    app: tapdext

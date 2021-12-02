@@ -9,7 +9,7 @@
 export default {
   dev: {
     '/api/tapd': {
-      target: 'http://localhost:8080',
+      target: 'http://127.0.0.1:50393',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
