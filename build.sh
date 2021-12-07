@@ -5,6 +5,9 @@ base_path=`pwd`
 # 使用本地 docker 的环境
 # eval $(minikube docker-env)
 
+_image_tag=`date "+%Y%m%d%H%M%S"`
+# _image_tag="latest"
+
 # 构建镜像
 _build_docker_image() {
 
@@ -22,14 +25,7 @@ _build_docker_image() {
 
     # docker image
     cd ${base_path}
-    #tag=`date "+%Y%m%d%H%M%S"`
-    tag="latest"
-    docker build -f docker/Dockerfile -t mantas/tapdext:${tag} .
-
-    # docker image prune -a -f
-    docker images|grep '<none>'|awk '{print $3}' | xargs docker rmi
-
-    # return $tag
+    docker build -f docker/Dockerfile -t mantas/tapdext:${_image_tag} .
 
     echo "build image done!"
 }
@@ -42,9 +38,15 @@ _update_service() {
     # _image_tag=$1
 
     # 通过 sed 更新 tapdext.yaml 里的版本号?
+    `sed -i "" "s|image: mantas/tapdext:[0-9]*$|image: mantas/tapdext:$_image_tag|g" tapdext.yaml`
     minikube kubectl -- apply -f tapdext.yaml
 
     echo "update minikube service done!"
+}
+
+_remove_none_images() {
+    # docker image prune -a -f
+    docker images|grep '<none>'|awk '{print $3}' | xargs docker rmi
 }
 
 _build_docker_image
@@ -55,3 +57,4 @@ _build_docker_image
 
 _update_service
 
+_remove_none_images

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tapdext
-          image: mantas/tapdext:latest
+          image: mantas/tapdext:20211202195831
           imagePullPolicy: Never
           ports:
             - containerPort: 80
